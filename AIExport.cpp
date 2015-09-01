@@ -29,7 +29,7 @@
 #include "ExternalAI/Interface/SSkirmishAILibrary.h"
 #include "ExternalAI/Interface/SSkirmishAICallback.h"
 #include "LegacyCpp/AIAI.h"
-#include "Game/GameVersion.h"
+//#include "Game/GameVersion.h"
 
 // E323AI stuff
 #include "AIExport.h"
@@ -47,7 +47,7 @@ static const char* aiVersion = NULL;
 static std::map<int, const struct SSkirmishAICallback*> skirmishAIId_callback;
 
 
-
+/*
 EXPORT(enum LevelOfSupport) getLevelOfSupportFor(
 		const char* aiShortName, const char* aiVersion,
 		const char* engineVersionString, int engineVersionNumber,
@@ -62,6 +62,7 @@ EXPORT(enum LevelOfSupport) getLevelOfSupportFor(
 
 	return LOS_None;
 }
+*/
 
 EXPORT(int) init(int skirmishAIId, const struct SSkirmishAICallback* callback) {
 
