@@ -227,7 +227,7 @@ void CPathfinder::calcGraph() {
 
 				Node* parent = CPathfinder::graph[ID_GRAPH(x/PATH2SLOPE, z/PATH2SLOPE)];
 
-				bool s[] = { false, false, false, false, false, false, false, false };
+				bool s[9] = { false, false, false, false, false, false, false, false, false};
 				for (size_t p = 0; p < surrounding.size(); p += 2) {
 					int i = surrounding[p]; //z
 					int j = surrounding[p + 1]; //x
@@ -272,8 +272,8 @@ void CPathfinder::calcGraph() {
 						min = max;
 					}
 
-					if (!s[index]) {
-						s[index] = true;
+					if (!s[8]) {
+						s[8] = true;
 						if (!isBlocked(xx, zz, map))
 							parent->neighbours[map].push_back(ID_GRAPH(xx/PATH2SLOPE, zz/PATH2SLOPE));
 					}
