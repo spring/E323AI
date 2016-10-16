@@ -7,7 +7,6 @@
 #include "CIntel.h"
 #include "CUnit.h"
 #include "CGroup.h"
-#include "MathUtil.h"
 #include "GameMap.hpp"
 
 CThreatMap::CThreatMap(AIClasses *ai) {

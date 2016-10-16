@@ -40,7 +40,7 @@ void CE323AI::InitAI(IGlobalAICallback* callback, int team) {
 		optionDifficulty[] = "difficulty",
 		optionLoggingLevel[] = "logging";
 
-	CLogger::logLevel loggingLevel = CLogger::VERBOSE;
+	CLogger::logLevel loggingLevel = CLogger::LL_VERBOSE;
 
 	ai = new AIClasses(callback);
 

@@ -13,18 +13,18 @@ std::map<CLogger::logLevel, std::string> CLogger::logDesc;
 
 CLogger::CLogger(AIClasses *_ai, unsigned int lt, logLevel lf): ai(_ai), logType(lt), logFilter(lf) {
 	if (logLevels.empty()) {
-		logLevels[ERROR]   = "(EE)";
-		logLevels[WARNING] = "(WW)";
-		logLevels[VERBOSE] = "(II)";
+		logLevels[LL_ERROR]   = "(EE)";
+		logLevels[LL_WARNING] = "(WW)";
+		logLevels[LL_VERBOSE] = "(II)";
 	}
 
 	if (logDesc.empty()) {
-		logDesc[ERROR]   = logLevels[ERROR]   + " error, ";
-		logDesc[WARNING] = logLevels[WARNING] + " warning, ";
-		logDesc[VERBOSE] = logLevels[VERBOSE] + " informational";
+		logDesc[LL_ERROR]   = logLevels[LL_ERROR]   + " error, ";
+		logDesc[LL_WARNING] = logLevels[LL_WARNING] + " warning, ";
+		logDesc[LL_VERBOSE] = logLevels[LL_VERBOSE] + " informational";
 	}
 
-	if (lf == NONE) {
+	if (lf == LL_NONE) {
 		ai->cb->SendTextMsg("Logging disabled", 0);
 		return;
 	}
@@ -90,7 +90,7 @@ void CLogger::s(std::string msg) {
 }
 
 void CLogger::log(logLevel level, std::string &msg) {
-	if (level == NONE || level > logFilter)
+	if (level == LL_NONE || level > logFilter)
 		return;
 
 	int frame = ai->cb->GetCurrentFrame();
@@ -114,7 +114,7 @@ void CLogger::log(logLevel level, std::string &msg) {
 		std::cout << output;
 	}
 
-	if ((logType & CLogger::LOG_SPRING) && level == ERROR) {
+	if ((logType & CLogger::LOG_SPRING) && level == LL_ERROR) {
 		ai->cb->SendTextMsg(msg.c_str(), 0);
 	}
 }
