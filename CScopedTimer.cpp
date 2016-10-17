@@ -2,9 +2,13 @@
 
 
 std::map<std::string, int> CScopedTimer::taskIDs;
-std::map<std::string, unsigned int> CScopedTimer::curTime;
-std::map<std::string, unsigned int> CScopedTimer::prevTime;
+std::map<std::string, std::int64_t> CScopedTimer::curTime;
+std::map<std::string, std::int64_t> CScopedTimer::prevTime;
 std::vector<std::string> CScopedTimer::tasks;
+
+static inline std::int64_t GetTimeNSec() {
+	return std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+}
 
 CScopedTimer::CScopedTimer(const std::string& s, IAICallback *_cb): cb(_cb), task(s) {
 	initialized = true;
@@ -21,11 +25,11 @@ CScopedTimer::CScopedTimer(const std::string& s, IAICallback *_cb): cb(_cb), tas
 		prevTime[task] = 0;
 	}
 
-	t1 = GetEngineRuntimeMSec();
+	t1 = GetTimeNSec();
 }
 
 CScopedTimer::~CScopedTimer() {
-	t2 = GetEngineRuntimeMSec();
+	t2 = GetTimeNSec();
 
 	if (!initialized)
 		return;
