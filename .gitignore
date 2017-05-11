@@ -1,6 +1,6 @@
 # compiled releases
 /releases/E323AI*
-/libSkirmishAI.so
+/data/libSkirmishAI.so
 
 # vim swapfiles
 .*.swp
