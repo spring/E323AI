@@ -79,8 +79,7 @@ void CE323AI::InitAI(IGlobalAICallback* callback, int team) {
 		delete ai->logger;
 		delete ai->unittable;
 		delete ai;
-		// this will kill this AI instance gracefully
-		throw 33;
+		return;
 	}
 
 	ai->gamemap       = new GameMap(ai);
