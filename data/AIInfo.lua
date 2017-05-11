@@ -35,7 +35,7 @@ local infos = {
 	},
 	{
 		key    = 'url',
-		value  = 'http://springrts.com/phpbb/viewtopic.php?f=15&t=19450',
+		value  = 'https://springrts.com/phpbb/viewtopic.php?f=15&t=19450',
 		desc   = 'URL with info on the AI in spring forum',
 	},
 	{

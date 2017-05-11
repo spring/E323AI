@@ -175,4 +175,4 @@ v3.13.1 [2010-01-11]
 * no watermaps support yet
 
 For the rest changelog please visit our forum thread:
-http://springrts.com/phpbb/viewtopic.php?f=15&t=19450
+https://springrts.com/phpbb/viewtopic.php?f=15&t=19450
