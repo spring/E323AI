@@ -39,7 +39,7 @@
 #define METAL2ENERGY 60
 
 /* Max features for range scan */
-#define MAX_FEATURES 15
+#define MAX_RANGESCAN_FEATURES 15
 
 /* Max enemies for range scan */
 #define MAX_ENEMIES 30
