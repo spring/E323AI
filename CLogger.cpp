@@ -96,7 +96,7 @@ void CLogger::log(logLevel level, std::string &msg) {
 	int frame = ai->cb->GetCurrentFrame();
 	int sec   = (frame / 30) % 60;
 	int min   = ((frame / 30) - sec) / 60;
-	char time[10];
+	char time[16];
 	sprintf(time, "[%2.2d:%2.2d] ", min, sec);
 	std::string output(time);
 	output += logLevels[level] + ": " + msg + "\n";

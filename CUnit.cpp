@@ -47,7 +47,7 @@ bool CUnit::isEconomy() {
 
 bool CUnit::reclaim(float3 pos, float radius) {
 	Command c = createPosCommand(CMD_RECLAIM, pos, radius);
-	if (c.id != 0) {
+	if (c.GetID() != 0) {
 		ai->cb->GiveOrder(key, &c);
 		ai->unittable->idle[key] = false;
 		return true;
@@ -57,9 +57,9 @@ bool CUnit::reclaim(float3 pos, float radius) {
 
 bool CUnit::reclaim(int target, bool enqueue) {
 	Command c = createTargetCommand(CMD_RECLAIM, target);
-	if (c.id != 0) {
+	if (c.GetID() != 0) {
 		if (enqueue)
-			c.options |= SHIFT_KEY;
+			c.SetOpts(SHIFT_KEY);
 		ai->cb->GiveOrder(key, &c);
 		ai->unittable->idle[key] = false;
 		return true;
@@ -73,9 +73,9 @@ int CUnit::queueSize() {
 
 bool CUnit::attack(int target, bool enqueue) {
 	Command c = createTargetCommand(CMD_ATTACK, target);
-	if (c.id != 0) {
+	if (c.GetID() != 0) {
 		if (enqueue)
-			c.options |= SHIFT_KEY;
+			c.SetOpts(SHIFT_KEY);
 		ai->cb->GiveOrder(key, &c);
 		ai->unittable->idle[key] = false;
 		return true;
@@ -91,7 +91,7 @@ bool CUnit::moveForward(float dist, bool enqueue) {
 bool CUnit::setOnOff(bool on) {
 	Command c = createTargetCommand(CMD_ONOFF, on);
 
-	if (c.id != 0) {
+	if (c.GetID() != 0) {
 		ai->cb->GiveOrder(key, &c);
 		return true;
 	}
@@ -113,9 +113,9 @@ bool CUnit::moveRandom(float radius, bool enqueue) {
 bool CUnit::move(const float3 &pos, bool enqueue) {
 	Command c = createPosCommand(CMD_MOVE, pos);
 
-	if (c.id != 0) {
+	if (c.GetID() != 0) {
 		if (enqueue)
-			c.options |= SHIFT_KEY;
+			c.SetOpts(SHIFT_KEY);
 		ai->cb->GiveOrder(key, &c);
 		ai->unittable->idle[key] = false;
 		return true;
@@ -126,9 +126,9 @@ bool CUnit::move(const float3 &pos, bool enqueue) {
 bool CUnit::guard(int target, bool enqueue) {
 	Command c = createTargetCommand(CMD_GUARD, target);
 
-	if (c.id != 0) {
+	if (c.GetID() != 0) {
 		if (enqueue)
-			c.options |= SHIFT_KEY;
+			c.SetOpts(SHIFT_KEY);
 		ai->cb->GiveOrder(key, &c);
 		ai->unittable->idle[key] = false;
 		return true;
@@ -139,9 +139,9 @@ bool CUnit::guard(int target, bool enqueue) {
 bool CUnit::patrol(const float3& pos, bool enqueue) {
 	Command c = createPosCommand(CMD_PATROL, pos);
 
-	if (c.id != 0) {
+	if (c.GetID() != 0) {
 		if (enqueue)
-			c.options |= SHIFT_KEY;
+			c.SetOpts(SHIFT_KEY);
 		ai->cb->GiveOrder(key, &c);
 		ai->unittable->idle[key] = false;
 		return true;
@@ -152,7 +152,7 @@ bool CUnit::patrol(const float3& pos, bool enqueue) {
 bool CUnit::cloak(bool on) {
 	Command c = createTargetCommand(CMD_CLOAK, on);
 
-	if (c.id != 0) {
+	if (c.GetID() != 0) {
 		ai->cb->GiveOrder(key, &c);
 		return true;
 	}
@@ -162,7 +162,7 @@ bool CUnit::cloak(bool on) {
 bool CUnit::repair(int target) {
 	Command c = createTargetCommand(CMD_REPAIR, target);
 
-	if (c.id != 0) {
+	if (c.GetID() != 0) {
 		ai->cb->GiveOrder(key, &c);
 		ai->unittable->idle[key] = false;
 		return true;
@@ -207,7 +207,7 @@ bool CUnit::build(UnitType* toBuild, const float3& pos) {
 
 	// NOTE: using of negative unit id is valid for Legacy C++ API only
 	Command c = createPosCommand(-(toBuild->def->id), goal, -1.0f, f);
-	if (c.id != 0) {
+	if (c.GetID() != 0) {
 		ai->cb->GiveOrder(key, &c);
 		ai->unittable->idle[key] = false;
 		return true;
@@ -217,16 +217,14 @@ bool CUnit::build(UnitType* toBuild, const float3& pos) {
 }
 
 bool CUnit::stop() {
-	Command c;
-	c.id = CMD_STOP;
+	Command c(CMD_STOP);
 	ai->cb->GiveOrder(key, &c);
 	return true;
 }
 
 bool CUnit::wait() {
 	if (!waiting) {
-		Command c;
-		c.id = CMD_WAIT;
+		Command c(CMD_WAIT);
 		ai->cb->GiveOrder(key, &c);
 		waiting = true;
 	}
@@ -235,8 +233,7 @@ bool CUnit::wait() {
 
 bool CUnit::unwait() {
 	if (waiting) {
-		Command c;
-		c.id = CMD_WAIT;
+		Command c(CMD_WAIT);
 		ai->cb->GiveOrder(key, &c);
 		waiting = false;
 	}
@@ -247,8 +244,7 @@ bool CUnit::stockpile() {
 	if (!type->def->stockpileWeaponDef)
 		return false;
 
-	Command c;
-	c.id = CMD_STOCKPILE;
+	Command c(CMD_STOCKPILE);
 	ai->cb->GiveOrder(key, &c);
 	return true;
 }
@@ -273,19 +269,18 @@ bool CUnit::micro(bool on) {
 }
 
 bool CUnit::factoryBuild(UnitType *ut, bool enqueue) {
-	Command c;
+	Command c(-(ut->def->id));
 	if (enqueue)
-		c.options |= SHIFT_KEY;
-	c.id = -(ut->def->id);
+		c.SetOpts(SHIFT_KEY);
+
 	ai->cb->GiveOrder(key, &c);
 	ai->unittable->idle[key] = false;
 	return true;
 }
 
 Command CUnit::createTargetCommand(int cmd, int target) {
-	Command c;
-	c.id = cmd;
-	c.params.push_back(target);
+	Command c(cmd);
+	c.PushParam(target);
 	return c;
 }
 
@@ -302,17 +297,14 @@ Command CUnit::createPosCommand(int cmd, float3 pos, float radius, facing f) {
 	if (pos.y < 0)
 		pos.y = 0;
 
-	Command c;
-	c.id = cmd;
-	c.params.push_back(pos.x);
-	c.params.push_back(pos.y);
-	c.params.push_back(pos.z);
+	Command c(cmd);
+	c.PushPos(pos);
 
 	if (f != NONE)
-		c.params.push_back(f);
+		c.PushParam(f);
 
 	if (radius > 0.0f)
-		c.params.push_back(radius);
+		c.PushParam(radius);
 	return c;
 }
 

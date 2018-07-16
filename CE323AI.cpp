@@ -517,10 +517,10 @@ int CE323AI::HandleEvent(int msg, const void* data) {
 			const PlayerCommandEvent* pce = (const PlayerCommandEvent*) data;
 			bool importantCommand = false;
 
-			if(pce->command.id < 0)
+			if(pce->command.GetID() < 0)
 				importantCommand = true;
 			else {
-				switch(pce->command.id)
+				switch(pce->command.GetID())
 				{
 					case CMD_MOVE:
 					case CMD_PATROL:
