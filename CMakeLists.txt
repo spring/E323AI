@@ -5,4 +5,4 @@ set(additionalSources      "")
 set(additionalCompileFlags "")
 set(additionalLibraries    ${LegacyCpp_AIWRAPPER_TARGET} CUtils ${Boost_THREAD_LIBRARY} ${Boost_SYSTEM_LIBRARY})
 
-ConfigureNativeSkirmishAI(mySourceDirRel additionalSources additionalCompileFlags additionalLibraries)
+configure_native_skirmish_ai(mySourceDirRel additionalSources additionalCompileFlags additionalLibraries)
